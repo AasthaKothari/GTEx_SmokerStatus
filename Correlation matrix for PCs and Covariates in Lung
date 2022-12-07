@@ -115,3 +115,11 @@ direction_df = direction_df[-1,]
 mean_diff = as.numeric(direction_df[,1]) - as.numeric(direction_df[,3])
 median_diff = as.numeric(direction_df[,2]) - as.numeric(direction_df[,4])
 direction_df = cbind(direction_df,mean_diff,median_diff)
+row.names(corr.mat)=corr.mat$ID
+colnames(v)=c("ID", "CYP1B1", "GPX2", "ALDH3A1", "MUC5AC")
+write.table(v, "D:/corrsmat.xls")
+corr.mat=corr.mat[,-1]
+nam=corr.mat$ID
+corr.mat=corr.mat[,-1]
+rownames(corr.mat)=nam
+corr.mat=as.numeric(corr.mat)
