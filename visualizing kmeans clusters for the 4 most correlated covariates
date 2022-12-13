@@ -1,0 +1,55 @@
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(cluster)
+library(tidyverse)
+library(stringi)
+library(ggpubr)
+library(factoextra)
+# Loading the gene expression matrix
+TPM_lung_file = "lung_data.txt"
+tpm_lung = fread(file = TPM_lung_file, header = T)
+# Renaming columns to shorter form
+samp_IDs = colnames(tpm_lung)
+ID_pattern = "GTEX-[a-zA-Z0-9]+|Name|Description"
+new_IDs = stri_match_all(str=samp_IDs,regex=ID_pattern)
+colnames(tpm_lung) = unlist(new_IDs)
+
+# Loading the co-variates matrix for lung
+lung_file = "Lung_covariates.txt"
+lung = fread(file = lung_file,header = T)
+# Taking transpose to obtain variables as columns
+transpose_lung = t(as.data.frame(lung))
+transpose_lung = as.data.frame(transpose_lung)
+
+colnames(transpose_lung) = as.character(transpose_lung[1,])
+transpose_lung = transpose_lung[-1,]
+
+
+#loading the gene regulation matrix(up or down regulated)
+reg_file = read.csv("reg_coregenes.csv")
+colnames(reg_file)=c("Gene", "directionality")
+
+#make vector with all gene names in capital 
+all.genes=reg_file$Gene
+
+# Seperating the required columns from PEER matrix, PC's, PEERs, sexes
+
+cov_matrix = apply(transpose_lung[,c(6:50)],2,as.numeric)
+cov_matrix=cov_matrix[,c(3,6,7,21)]
+row.names(cov_matrix) = row.names(transpose_lung)
+
+# K means on the cluster
+
+km_Cov = kmeans(cov_matrix,2,20)
+clus=km_Cov$cluster
+plotcluster(km_Cov)
+#3,6,7,21
+
+#plotting
+fviz_cluster(km_Cov, data = cov_matrix[],
+             palette = c("#00AFBB", "#E7B800"), 
+             geom = "point",
+             ellipse.type = "convex", 
+             ggtheme = theme_bw()
+)
