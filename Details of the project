@@ -1,8 +1,8 @@
-# GTEx_SmokerStatus - Lung Data
+#GTEx_SmokerStatus - Lung Data
 Exploratory analysis of changing in gene expression in Lung and Brain tissue as an effect of smoking, based on transcripts per million and covariates data for the same obtained from the GTEx portal. 
 In the lung sub-section, GTEx provides gene expression innformation for the tissue.
 
-###About
+### About
 Smoking is known to cause mutations, but recent studies suggested that smoking can cause a change in gene expression for a multitude of genes across tissues, including Lung. 
 Smoking also, thus acts a huge confounder in many lung-cancer related studies and research involving Gene expression, and for those utilizing GTEx gene expression data. As the smoking status is not specified. 
 Studies have shown that Smoking highly changes the expression of genes like CYP1B1 which play an important role in metabolic activation of pro-carcinogens. Over expression of these genes have shown to be linked with cancer progression in the Lung. 
